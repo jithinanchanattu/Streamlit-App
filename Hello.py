@@ -57,11 +57,14 @@ def resize_video(filename):
 def extract_text(video_path):
     ffmpeg_command = f"ffmpeg -i '{video_path}' -acodec pcm_s24le -ar 48000 -q:a 0 -map a -y 'output_audio.wav'"
     subprocess.run(ffmpeg_command, shell=True)
+    model = whisper.load_model("base")
+    result = model.transcribe("output_audio.wav")
+    return result["text"]
     # Here implement the method to extract text using another library or method
     # For example:
     # result = my_text_extraction_method("output_audio.wav")
     # return result
-    return "Dummy text for demonstration"
+    # return "Dummy text for demonstration"
 
 def translate_text(text, target_language_code):
     translator = Translator()
