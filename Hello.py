@@ -19,6 +19,7 @@ from googletrans import Translator
 from gtts import gTTS
 import os
 import whisper
+import speech_recognition as sr
 
 LOGGER = get_logger(__name__)
 
@@ -56,11 +57,21 @@ def resize_video(filename):
     return output_filename
 
 def extract_text(video_path):
-    ffmpeg_command = f"ffmpeg -i '{video_path}' -acodec pcm_s24le -ar 48000 -q:a 0 -map a -y 'output_audio.wav'"
-    subprocess.run(ffmpeg_command, shell=True)
-    model = whisper.load_model("base")
-    result = model.transcribe("output_audio.wav")
-    return result["text"]
+    # Convert video to audio using ffmpeg
+    subprocess.run(["ffmpeg", "-i", video_path, "-acodec", "pcm_s16le", "-ar", "16000", "output_audio.wav"])
+
+    # Transcribe audio to text using SpeechRecognition
+    recognizer = sr.Recognizer()
+    with sr.AudioFile("output_audio.wav") as source:
+        audio_data = recognizer.record(source)
+        result = recognizer.recognize_google(audio_data)
+
+    return result
+    #ffmpeg_command = f"ffmpeg -i '{video_path}' -acodec pcm_s24le -ar 48000 -q:a 0 -map a -y 'output_audio.wav'"
+    #subprocess.run(ffmpeg_command, shell=True)
+    #model = whisper.load_model("base")
+    #result = model.transcribe("output_audio.wav")
+    #return result["text"]
     # Here implement the method to extract text using another library or method
     # For example:
     # result = my_text_extraction_method("output_audio.wav")
