@@ -16,7 +16,6 @@ import streamlit as st
 from streamlit.logger import get_logger
 import subprocess
 from googletrans import Translator
-from google.colab import files
 from gtts import gTTS
 import os
 
