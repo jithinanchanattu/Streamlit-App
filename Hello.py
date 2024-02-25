@@ -72,11 +72,6 @@ def extract_text(video_path):
     #model = whisper.load_model("base")
     #result = model.transcribe("output_audio.wav")
     #return result["text"]
-    # Here implement the method to extract text using another library or method
-    # For example:
-    # result = my_text_extraction_method("output_audio.wav")
-    # return result
-    # return "Dummy text for demonstration"
 
 def translate_text(text, target_language_code):
     translator = Translator()
