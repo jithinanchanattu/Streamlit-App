@@ -117,7 +117,7 @@ def run():
     if resize_to_720p and video_path:
         st.info("Resizing to 720p...")
         video_path = resize_video(video_path)
-        st.info("Resized to 720p...")
+        st.info("Resized to 720p..." + video_path)
 
     # Extract Audio Text From Video - Placeholder
     if st.button("Extract Audio Text"):
