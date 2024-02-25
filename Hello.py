@@ -18,6 +18,7 @@ import subprocess
 from googletrans import Translator
 from gtts import gTTS
 import os
+import whisper
 
 LOGGER = get_logger(__name__)
 
