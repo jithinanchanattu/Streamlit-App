@@ -86,6 +86,12 @@ def download_audio_video(audio_path, video_path):
     st.download_button(label="Download Video", data=video_bytes, file_name="output_video.mp4")
     st.download_button(label="Download Audio", data=audio_bytes, file_name="output_audio.mp3")
 
+def download_audio(audio_path):
+    st.audio(audio_path, format='audio/mp3')
+    st.warning("Downloading audio...")
+    with open(audio_path, "rb") as audio_file:
+        audio_bytes = audio_file.read()
+    st.download_button(label="Download Audio", data=audio_bytes, file_name="output_audio.mp3")
 
 def run():
     st.title("Video to Audio Conversion and Translation App")
@@ -138,9 +144,17 @@ def run():
             st.success("Audio played successfully.")
         else:
             st.warning("Please translate text first.")
-
+    
+    # Download Audio
+    st.header("Step 5: Download Audio")
+    if st.button("Download Audio"):
+        if 'synthesized_audio_path' in st.session_state:
+            download_audio(st.session_state['synthesized_audio_path'])
+        else:
+            st.warning("Please synthesize audio first.")
+    
     # Download Audio and Video
-    st.header("Step 5: Download Audio and Video")
+    st.header("Step 6: Download Audio and Video")
     if st.button("Download Audio and Video"):
         if 'synthesized_audio_path' in st.session_state and video_path:
             download_audio_video(st.session_state['synthesized_audio_path'], video_path)
