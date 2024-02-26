@@ -114,10 +114,7 @@ def download_audio_video(audio_path, video_path):
     st.warning("Downloading video and audio...")
     with open(video_path, "rb") as video_file:
         video_bytes = video_file.read()
-    with open(audio_path, "rb") as audio_file:
-        audio_bytes = audio_file.read()
     st.download_button(label="Download Video", data=video_bytes, file_name="output_video.mp4")
-    st.download_button(label="Download Audio", data=audio_bytes, file_name="output_audio.mp3")
 
 def download_audio(audio_path):
     st.audio(audio_path, format='audio/mp3')
@@ -133,6 +130,10 @@ def run():
     # Upload Video
     st.header("Step 1: Upload Video")
     video_path = upload_video()
+    global global_file_name
+    global extracted_text
+    global extracted_text_translate
+    global synthesized_audio_path
     global_file_name = video_path
 
     if video_path:
@@ -167,6 +168,7 @@ def run():
                     st.success("Audio played successfully.")
                     if synthesized_audio_path:
                         download_audio(synthesized_audio_path)
+                        download_audio_video(synthesized_audio_path, global_file_name)
                     else:
                         st.warning("Please synthesize audio first.")
                 else:
